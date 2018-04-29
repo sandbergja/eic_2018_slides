@@ -1,0 +1,341 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage{default}
+\usepackage{hyperref}
+
+\usetheme{Torino}
+
+
+% TO DO: Fill in URLs in 2 places
+
+\begin{document}
+
+\title{Authority Control at Your Library}
+\author{Jane Sandberg}
+\institute{Linn-Benton Community College}
+
+
+\begin{frame}
+ \titlepage
+\end{frame}
+
+
+\begin{frame}{Land Acknowledgement}
+We acknowledge with respect that we are on the ancestral lands of the Osage, Missouri people, and Illinois Confederacy, whose connections to this land continue to this day.
+
+\end{frame}
+
+
+\begin{frame}{About this session}
+\begin{block}{Outcome}
+ All participants will leave with a manageable goal related to authority control they can implement at their own library.
+\end{block}
+\begin{block}<2->{What to expect}
+\begin{itemize}
+ \item Hands-on work with the Web client
+ \item Working in groups of 2-3
+ \item Interactive
+\end{itemize}
+
+\end{block}
+\begin{block}<3->{Slides available}
+URL ---
+\end{block}
+
+
+\end{frame}
+
+\begin{frame}{Outline}
+\begin{itemize}
+ \item 3 activities
+ \item Break
+ \item Discussion: ethical dimensions of authority control
+ \item Another activity
+ \item Discussion: applying what you've learned today
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}{Please interrupt and yell!}
+
+ \begin{description}
+  \item[Interrupt] when something is unclear, or if you'd like to share a very relevant experience of your own.
+  \item[Yell] during activities to coordinate with other groups.
+ \end{description}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}{Definition of Authority Control}
+Authority control is the process of grouping
+similar items together using a specific term taken from
+an authority file.
+
+\end{frame}
+
+
+\begin{frame}{Reasons for authority control projects}
+\begin{itemize}
+ \item Improving patron discovery experience by maintaining consistent terminology
+ \item Reducing the hostile terminology that your patrons encounter
+ \item Future-proofing your catalog for a linked-data context
+ \item Identifying low-quality and out-of-date records in your system
+ \item Creating rich search data for discovery software
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Authority Control and Evergreen}
+\begin{itemize}
+ \item Galen Charlton, Chad Cluff, and Mary Jinglewski did an excellent presentation at the 2016 Evergreen Conference
+ \item Slides available at \url{https://evergreen-ils.org/wp-content/uploads/2015/11/eg16-CatalogingForester_reduce.pptx}
+ \item Today's preconference will build on their presentation, especially related to 
+ authority work that you can do without an authority vendor.
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Activity 1: Identify and correct outdated terminology}
+\begin{enumerate}
+ \item Working with a partner, go to \url{https://egconf.missourievergreen.org/eg/staff}
+ \item Click Browse the Catalog
+ \item Find a bibliographic record with a subject heading ``Cookery''.
+ \item Edit the record to the more current LCSH term ``Cooking''.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Control sets vs. thesauri}
+ \begin{description}
+  \item[Thesaurus] -- a list of authorized and variant terms.  Each MARC authority record should be part of a thesaurus.
+  \item[Control set] -- a mapping of bibliographic fields to the thesauri they should match, as well as ways to control that matching process.
+ \end{description}
+In practice, most libraries will only use one control set.
+\end{frame}
+
+\begin{frame}{Short control set rant}
+\begin{itemize}
+ \item They are helpful for controlling different fields with different thesauri.
+ \item Unfortunately, the MARC standard is likely to have different thesauri going on in the same field, distinguished by an indicator or \$2.  See bug 1766378.
+\end{itemize}
+
+\texttt{650\_2 \$aUnicorns in art.} will validate, even though it is a LCSH term where a MeSH heading should be.
+
+\end{frame}
+
+
+\begin{frame}{What the validate button does}
+ \begin{enumerate}
+  \item Finds the control set for a particular bib field.
+  \item Looks for a matching term in that control set's thesauri, based on settings in the control set.
+  \item If there is at least one authority heading field that matches, show a checkmark icon.
+  \item Otherwise, turn the field red.
+ \end{enumerate}
+
+\end{frame}
+
+
+
+\begin{frame}{Activity 2: Add a local authority record}
+
+Create a thesaurus for your new authority records:
+\begin{enumerate}
+ \item Go to Administration $\rightarrow$ Server Administration.
+ \item Choose Authority Thesauri.
+ \item Create a new thesaurus just for you!  Choose any capital letter for your short code.
+ Make sure your thesaurus is part of the LoC control set.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Activity 2: Add a local authority record}
+
+Create a local authority record:
+\begin{enumerate}
+ \item Open up a bibliographic record.
+ \item Add a 6XX field with a term that you probably won't find in any other thesaurus.  
+ \item Click the Validate button and make sure it shows up in red.
+ \item Click the Link icon next to the field.
+ \item Click Create and Edit.
+ \item In the Subj fixed field, enter the capital letter that represents your thesaurus.
+ \item Click Save, then Use this Authority, then Save.
+ \item Save the bib record.
+ \item Hit Validate.
+\end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}{Activity 2: Add a local authority record}
+
+But wait!  The Validate button never turns any field with a \$0 red.  So...
+\begin{enumerate}
+ \item Remove the \$0.
+ \item Hit Validate again.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Limitation of the Validate button}
+\begin{block}{Based on an assumption}
+ Validate assumes that catalogers only work with one record at a time.
+ \end{block}
+ \begin{block}<2->{Working in batch}
+  If you want to create links and identify unauthorized headings on a larger scale, you need to use command-line tools:
+  \begin{itemize}
+   \item authority\_control\_fields.pl finds matching headings and creates links.
+   \item SQL queries on your handout can identify records that don't match your authority file.
+  \end{itemize}
+
+
+ \end{block}
+
+\end{frame}
+
+
+
+\begin{frame}{Activity 3: Download MARC authorities and upload}
+\begin{enumerate}
+ \item Download at least one MARC authority record from one of the sources on your handout.
+ \item Go to Cataloging $\rightarrow$ MARC Batch Import/Export.
+ \item Set Record Type to Authority Records.
+ \item Check Import Non-Matching Records.
+ \item Upload your file.
+ \item When it's done, go to Cataloging $\rightarrow$ Manage Authorities and search for the record you imported.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Break}
+See you soon
+\end{frame}
+
+
+
+
+
+\begin{frame}{Finding one's self in the catalog}
+``When people walk into the library of their own free will -- when it is an act not in response to a mandatory class assignment or work project -- what are they looking for? Many times, it is themselves -- traces of self, fragments, whole stories.''
+\vfill
+
+-- De la Tierra, T. (2008). Latina lesbian subject headings: the power of naming. \emph{Radical cataloging: Essays at the front}, 94.
+\end{frame}
+
+
+\begin{frame}{Finding one's self in the catalog}
+``Through the use of inaccurate language in the 
+Library of
+Congress Subject Headings
+ and 
+problematic classification schemes, catalogers often unwittingly contribute to the creation of 
+library environments that are passively hostile to transgender users.''
+\vfill
+
+-- Roberto, K. R. (2011). Inflexible bodies: metadata for transgender identities. \emph{Journal of Information Ethics}, 20(2), 56.
+\end{frame}
+
+
+\begin{frame}{Professional ethical commitments}
+From the IFLA Statement of International Cataloging Principles:
+ \begin{description}
+  \item[Common usage] -- Vocabulary used in descriptions and access should be in accord with that 
+of the majority of users. 
+  \item[Representation] --  Controlled forms 
+of  names  of  persons, 
+corporate 
+bodies  and  families  should  be  based  on  the  way  an  entity 
+describes itself.
+  \item[Accuracy] -- Bibliographic and authority data should be an accurate portrayal of 
+the entity 
+described.
+ \end{description}
+ 
+ From the ALA Code of Ethics:
+ \begin{description}
+  \item[Privacy] -- We protect each library user's right to privacy and confidentiality.
+ \end{description}
+ 
+ 
+\end{frame}
+
+\begin{frame}{Helpful strategies for reducing hostility?}
+\end{frame}
+
+
+
+
+\begin{frame}{Activity 4: Choose your own}
+Three options:
+\begin{enumerate}
+ \item View an authority record in various formats
+ \item Add linked data URIs to a MARC record using MARCEdit
+ \item Run SQL queries on your own authority file
+ \item Do a refresher of activities 1-3
+\end{enumerate}
+You can get the slides here: 
+
+\end{frame}
+
+\begin{frame}{Activity 4a: View an authority record in various formats}
+ Authority records are public, but a little hard to track down:
+ \begin{itemize}
+  \item Browse: http://libcat.linnbenton.edu/opac/extras/browse/marcxml/ authority.subject/1/Saint Charles Mo/1/20
+  \item Specific record by ID: http://libcat.linnbenton.edu/opac/extras/ supercat/retrieve/marcxml/authority/354524
+  \item List of available formats: http://libcat.linnbenton.edu/opac/extras/ supercat/formats/authority
+ \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Activity 4b: Add linked data URIs to a MARC record using MarcEdit}
+ \begin{enumerate}
+  \item Download and install MarcEdit: \url{http://marcedit.reeset.net/downloads}
+  \item Open up some bib records in the MarcEditor feature (you may need to run MarcBreaker first)
+  \item Go to Tools $\rightarrow$ Linked Data Tools $\rightarrow$ Build Linked Records
+  \item Move contents of \$0 to \$9 so that it doesn't mess with Evergreen's Authority Control features
+  
+ \end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Activity 4c: Run SQL queries}
+In your local system, run some of the queries on your handout.  Think about additional \texttt{WHERE} clauses that might be helpful for your library.
+\end{frame}
+
+
+
+\begin{frame}{Consultant time}
+Get into pairs, and act as consultants to each other.  Establish what basic parameters you have for an authority control project, and fill out a worksheet that gives the bones of a project
+
+\end{frame}
+
+
+\begin{frame}{Thank you!}
+
+\begin{block}{Special thanks...}
+...to Blake G-H, who created the demo server we used today.
+\end{block}
+
+\begin{block}{Continuing our conversations}
+I am available...
+\begin{itemize}
+ \item ...at this conference
+ \item ...on email at sandbej [at] linnbenton [dot] edu
+ \item ...on the evergreen-catalogers email list
+ \item ...on Github at sandbergja
+\end{itemize}
+
+\end{block}
+
+
+
+\end{frame}
+
+
+
+\end{document}
